@@ -8,6 +8,7 @@
     "url": "https://mohitya.dev"
   },
   "dependencies": {
+    "@google-cloud/text-to-speech": "^6.0.1",
     "@remotion/bundler": "4.0.287",
     "@remotion/cli": "4.0.287",
     "@remotion/google-fonts": "4.0.287",
@@ -16,7 +17,11 @@
     "@remotion/player": "4.0.287",
     "@remotion/shapes": "4.0.287",
     "@remotion/tailwind-v4": "4.0.287",
+    "body-parser": "^2.2.0",
     "clsx": "2.1.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "gtts": "^0.2.1",
     "next": "15.2.3",
     "react": "19.0.0",
     "react-dom": "19.0.0",
@@ -25,8 +30,9 @@
     "zod": "3.22.3"
   },
   "devDependencies": {
-    "@remotion/eslint-plugin": "4.0.287",
     "@eslint/eslintrc": "3.1.0",
+    "@next/eslint-plugin-next": "15.1.6",
+    "@remotion/eslint-plugin": "4.0.287",
     "@types/node": "20.12.14",
     "@types/react": "19.0.0",
     "@types/react-dom": "19.0.0",
@@ -34,7 +40,6 @@
     "autoprefixer": "10.4.20",
     "dotenv": "16.0.3",
     "eslint": "9.19.0",
-    "@next/eslint-plugin-next": "15.1.6",
     "eslint-config-next": "15.1.6",
     "postcss": "8.4.47",
     "prettier": "3.3.3",

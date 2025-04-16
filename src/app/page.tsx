@@ -2,7 +2,7 @@
 
 import { Player } from "@remotion/player";
 import type { NextPage } from "next";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useRef } from "react";
 import { z } from "zod";
 import {
   defaultMyCompProps,
@@ -19,6 +19,9 @@ import { Main } from "../remotion/MyComp/Main";
 
 const Home: NextPage = () => {
   const [text, setText] = useState<string>(defaultMyCompProps.title);
+  const [isPlaying, setIsPlaying] = useState(false); // To manage play state
+
+  const playerRef = useRef<any>(null); // Ref for the Player
 
   const inputProps: z.infer<typeof CompositionProps> = useMemo(() => {
     return {
@@ -26,26 +29,46 @@ const Home: NextPage = () => {
     };
   }, [text]);
 
+  const handlePlayClick = () => {
+    if (!playerRef.current) return;
+  
+    if (isPlaying) {
+      playerRef.current.pause(); // Pause if already playing
+      setIsPlaying(false);
+    } else {
+      playerRef.current.play(); // Play if paused
+      setIsPlaying(true);
+    }
+  };
+  
+
   return (
     <div>
       <div className="max-w-screen-md m-auto mb-5">
         <div className="overflow-hidden rounded-geist shadow-[0_0_200px_rgba(0,0,0,0.15)] mb-10 mt-16">
-          <Player
-            component={Main}
-            inputProps={inputProps}
-            durationInFrames={DURATION_IN_FRAMES}
-            fps={VIDEO_FPS}
-            compositionHeight={VIDEO_HEIGHT}
-            compositionWidth={VIDEO_WIDTH}
+          <div
+            onClick={handlePlayClick}
             style={{
-              // Can't use tailwind class for width since player's default styles take presedence over tailwind's,
-              // but not over inline styles
+              cursor: "pointer",
               width: "100%",
             }}
-            controls
-            autoPlay
-            loop
-          />
+          >
+            <Player
+              ref={playerRef}
+              component={Main}
+              inputProps={inputProps}
+              durationInFrames={DURATION_IN_FRAMES}
+              fps={VIDEO_FPS}
+              compositionHeight={VIDEO_HEIGHT}
+              compositionWidth={VIDEO_WIDTH}
+              style={{
+                width: "100%",
+              }}
+              controls
+              autoPlay={false} // Disable autoplay
+              loop={false} // Disable looping
+            />
+          </div>
         </div>
         <RenderControls
           text={text}

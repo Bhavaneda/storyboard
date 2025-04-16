@@ -29,15 +29,7 @@ export const RenderControls: React.FC<{
             text={text}
           ></Input>
           <Spacing></Spacing>
-          <AlignEnd>
-            <Button
-              disabled={state.status === "invoking"}
-              loading={state.status === "invoking"}
-              onClick={renderMedia}
-            >
-              Render video
-            </Button>
-          </AlignEnd>
+
           {state.status === "error" ? (
             <ErrorComp message={state.error.message}></ErrorComp>
           ) : null}
