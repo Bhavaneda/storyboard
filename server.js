@@ -1,8 +1,15 @@
 const express = require('express');
+const cors = require('cors');
+const app = express();
+
+// Enable CORS for all origins (or specify your frontend URL)
+app.use(cors({
+  origin: 'http://localhost:3000'  // Allow only frontend to access
+}));
+
 const fs = require('fs');
 const path = require('path');
 const gTTS = require('gtts');  // Import gTTS
-const app = express();
 const port = 3001;
 
 // Define the 'public/audio' directory to store audio files
@@ -14,7 +21,10 @@ if (!fs.existsSync(audioDirectory)) {
 }
 
 // Serve the generated audio files from the 'public/audio' folder
-app.use('/audio', express.static(audioDirectory));
+// FIXED: serve from correct folder
+app.use('/audio', express.static(path.join(__dirname, 'public', 'audio')));
+
+
 
 app.get('/generate-audio', async (req, res) => {
   const { text, index } = req.query;
@@ -23,6 +33,8 @@ app.get('/generate-audio', async (req, res) => {
   if (!text || index === undefined) {
     return res.status(400).send('Text and index are required');
   }
+
+
 
   try {
     // Create a gTTS instance with the provided text and language (English)
