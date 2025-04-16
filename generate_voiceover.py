@@ -2,18 +2,18 @@ from gtts import gTTS
 import os
 
 # Define personalized data
-customer_name = "Alex"
-loan_amount = "500000"
-agent_name = "John Doe"
+customer_name = "John Doe"
+loan_amount = "50000"
+agent_name = "Alex"
 
 # Define storyboard
 storyboard = [
     "Congratulations, {customer_name}!",
     "We’ve got some exciting news just for you!",
-    "Your home loan for ₹{loan_amount} has been approved!",
-    "{agent_name}, your loan advisor, is here to guide you every step of the way.",
+    "Your home loan for ${loan_amount} has been approved!",
+    "{agent_name} your loan advisor is here to guide you every step of the way.",
     "We’re so proud to be part of this milestone in your life.",
-    "Click below to view your documents and next steps.",
+    "Click below to proceed to the next steps."
 ]
 
 # Output directory
