@@ -10,10 +10,13 @@ import {
 import { useEffect, useState } from "react";
 import { loadFont, fontFamily } from "@remotion/google-fonts/Inter";
 import { getAudioDurationInSeconds } from "@remotion/media-utils";
+import Transcript from './Transcript';
+
 
 const customerName = "John Doe";
 const loanAmount = "50000";
 const agentName = "Alex";
+
 
 const generateAudioFileName = (index: number) => {
   return `/audio/voiceover_${index}.mp3`;
@@ -115,12 +118,14 @@ const Scene = ({
   text,
   color,
   fontSize,
+  image,
   isLast = false,
 }: {
   idx: number;
   text: string;
   color: string;
   fontSize: number;
+  image: string;
   isLast?: boolean;
 }) => {
   const frame = useCurrentFrame();
@@ -130,8 +135,6 @@ const Scene = ({
   const scale = interpolate(frame, [0, 20], [0.95, 1], {
     extrapolateRight: "clamp",
   });
-
-  const image = `/images/scene${idx}.jpg`;
 
   return (
     <AbsoluteFill style={{ opacity }}>
@@ -166,8 +169,6 @@ const Scene = ({
             textAlign: "center",
             marginBottom: "135px",
             zIndex: 10,
-            //border: "2px dashed red",
-            position: "relative",
           }}
         >
           <h1
@@ -261,6 +262,7 @@ const loadDurations = async (audioUrls: string[], fps: number) => {
 
 export const Main: React.FC = () => {
   const { fps } = useVideoConfig();
+  const [showTranscript, setShowTranscript] = useState(false);
   const [scenes, setScenes] = useState<any[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -270,8 +272,35 @@ export const Main: React.FC = () => {
       const validAudioUrls = audioUrls.filter((url): url is string => url !== null);
 
       if (validAudioUrls.length > 0) {
+        const prompt = ["home loan approval"];
         const scenesWithDuration = await loadDurations(validAudioUrls, fps);
-        setScenes(scenesWithDuration);
+
+        const fetchImages = await fetch('http://localhost:3005/img', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            prompts: prompt, // passing the prompt as part of the request body
+          }),
+        });
+        const imagesData = await fetchImages.json();
+        console.log(imagesData);
+
+        const updatedScenes = scenesWithDuration.map((scene, index) => {
+          const image = imagesData[0].result[index]
+            ? `/images/${imagesData[0].result[index]}`
+            : `/images/scene${index}.jpg`;
+
+            console.log(image);
+
+          return {
+            ...scene,
+            image,
+          };
+        });
+
+        setScenes(updatedScenes);
         setIsLoaded(true);
       } else {
         console.error("Failed to load audio files.");
@@ -288,7 +317,7 @@ export const Main: React.FC = () => {
           const from = scenes
             .slice(0, idx)
             .reduce((acc, curr) => acc + curr.duration, 0);
-
+  
           return (
             <Sequence from={from} durationInFrames={scene.duration} key={idx}>
               <Audio src={scene.audioUrl} />
@@ -297,11 +326,64 @@ export const Main: React.FC = () => {
                 text={scene.text}
                 color={scene.color}
                 fontSize={scene.fontSize}
+                image={scene.image}
                 isLast={idx === scenes.length - 1}
               />
             </Sequence>
           );
         })}
+  
+  {showTranscript && (
+  <div style={{
+    position: "absolute",
+    bottom: "80px",
+    right: "20px",
+    backgroundColor: "white",
+    padding: "16px",
+    borderRadius: "8px",
+    maxWidth: "300px",
+    zIndex: 9999
+  }}>
+    <Transcript scenes={scenes} />
+  </div>
+)}
+
+      {/* Toggle Transcript Button */}
+      <div
+  style={{
+    position: "absolute",
+    bottom: "-80px",  // Adjust this to place the button below the player
+    right: "20px",
+    zIndex: 9999,  // Ensure it's above other elements
+    transform: "translateY(0)",  // Ensure the button is visible
+  }}
+>
+  <button
+    onClick={() => setShowTranscript(!showTranscript)}
+    style={{
+      padding: "12px 24px",
+      backgroundColor: "#4285f4",
+      color: "white",
+      fontWeight: "bold",
+      borderRadius: "8px",
+      cursor: "pointer",
+      border: "none",
+      fontSize: "18px",
+      boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
+      transition: "all 0.3s ease",
+      textDecoration: "none",
+      textAlign: "center",
+      width: "auto",
+      display: "inline-block",
+    }}
+  >
+    {showTranscript ? "Hide Transcript" : "Show Transcript"}
+  </button>
+</div>
+
+      {/* Transcript component */}
+      {showTranscript && <Transcript scenes={scenes} />}
     </AbsoluteFill>
   );
+  
 };

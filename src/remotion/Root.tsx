@@ -29,9 +29,9 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={140}
         height={140}
-        defaultProps={{
-          outProgress: 0,
-        }}
+        // defaultProps={{
+        //   outProgress: 0,
+        // }}
       />
     </>
   );

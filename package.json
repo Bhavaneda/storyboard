@@ -2,11 +2,7 @@
   "name": "create",
   "version": "0.1.0",
   "private": true,
-  "author": {
-    "name": "Mohit Yadav",
-    "email": "mohit@mohitya.dev",
-    "url": "https://mohitya.dev"
-  },
+  "author": "Mohit Yadav <mohit@mohitya.dev> (https://mohitya.dev)",
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.0.1",
     "@remotion/bundler": "4.0.287",
@@ -17,6 +13,7 @@
     "@remotion/player": "4.0.287",
     "@remotion/shapes": "4.0.287",
     "@remotion/tailwind-v4": "4.0.287",
+    "axios": "^1.8.4",
     "body-parser": "^2.2.0",
     "clsx": "2.1.1",
     "cors": "^2.8.5",
@@ -54,5 +51,17 @@
     "remotion": "remotion studio",
     "render": "remotion render",
     "deploy": "node deploy.mjs"
-  }
+  },
+  "description": "<img src=\"https://github.com/remotion-dev/template-next/assets/1629785/9092db5f-7c0c-4d38-97c4-5f5a61f5cc098\" />\r <br/>\r <br/>",
+  "main": "next.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bhavaneda/storyboard.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bhavaneda/storyboard/issues"
+  },
+  "homepage": "https://github.com/Bhavaneda/storyboard#readme"
 }

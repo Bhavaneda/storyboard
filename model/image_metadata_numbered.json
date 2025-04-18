@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "filename": "family_moving_into_new_home.jpg",
+    "description": "Happy family moving into their new home",
+    "tags": ["happy", "family", "moving", "new", "home"]
+  },
+  {
+    "id": 2,
+    "filename": "woman_working_on_laptop.jpg",
+    "description": "Woman working on a laptop in a cozy living room",
+    "tags": ["woman", "working", "laptop", "living room", "cozy"]
+  },
+  {
+    "id": 3,
+    "filename": "elderly_couple_drinking_coffee.jpg",
+    "description": "Elderly couple drinking coffee together in the kitchen",
+    "tags": ["elderly", "couple", "coffee", "kitchen", "morning"]
+  },
+  {
+    "id": 4,
+    "filename": "modern_apartment_building.jpg",
+    "description": "Modern apartment building with balconies",
+    "tags": ["modern", "apartment", "building", "balconies", "urban"]
+  },
+  {
+    "id": 5,
+    "filename": "family_receiving_house_keys.jpg",
+    "description": "Family receiving keys to their new house",
+    "tags": ["family", "keys", "house", "new", "home"]
+  },
+  {
+    "id": 6,
+    "filename": "loan_officer_explaining_documents.jpg",
+    "description": "Loan officer explaining documents to a young couple",
+    "tags": ["loan", "officer", "documents", "couple", "explanation"]
+  },
+  {
+    "id": 7,
+    "filename": "luxury_kitchen.jpg",
+    "description": "Luxury modern kitchen with marble countertops",
+    "tags": ["luxury", "modern", "kitchen", "marble", "countertops"]
+  },
+  {
+    "id": 8,
+    "filename": "urban_skyline_at_night.jpg",
+    "description": "Urban skyline view with city lights at night",
+    "tags": ["urban", "skyline", "city", "lights", "night"]
+  },
+  {
+    "id": 9,
+    "filename": "smiling_woman_holding_tablet.jpg",
+    "description": "Smiling woman holding a tablet while sitting on a couch",
+    "tags": ["smiling", "woman", "tablet", "couch", "technology"]
+  },
+  {
+    "id": 10,
+    "filename": "home_loan_approved_notification.jpg",
+    "description": "Home loan approved notification on a smartphone screen",
+    "tags": ["home", "loan", "approved", "notification", "smartphone"]
+  }
+]
