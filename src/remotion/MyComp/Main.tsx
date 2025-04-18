@@ -10,56 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { loadFont, fontFamily } from "@remotion/google-fonts/Inter";
 import { getAudioDurationInSeconds } from "@remotion/media-utils";
-import Transcript from './Transcript';
-
-
-const customerName = "John Doe";
-const loanAmount = "50000";
-const agentName = "Alex";
-
-
-const generateAudioFileName = (index: number) => {
-  return `/audio/voiceover_${index}.mp3`;
-};
-
-const storyboardTemplate = [
-  {
-    text: `Congratulations ${customerName}!`,
-    audio: generateAudioFileName(0),
-    fontSize: 60,
-    color: "black",
-  },
-  {
-    text: "We’ve got some exciting news just for you!",
-    audio: generateAudioFileName(1),
-    fontSize: 50,
-    color: "blue",
-  },
-  {
-    text: `Your home loan for ${loanAmount} has been approved!`,
-    audio: generateAudioFileName(2),
-    fontSize: 50,
-    color: "green",
-  },
-  {
-    text: `${agentName}, your loan advisor is here to guide you every step of the way.`,
-    audio: generateAudioFileName(3),
-    fontSize: 50,
-    color: "darkred",
-  },
-  {
-    text: "We’re so proud to be part of this milestone in your life.",
-    audio: generateAudioFileName(4),
-    fontSize: 50,
-    color: "orange",
-  },
-  {
-    text: "Click below to proceed to the next steps.",
-    audio: generateAudioFileName(5),
-    fontSize: 50,
-    color: "purple",
-  },
-];
+import { storyboardTemplate } from "../constants/storyboard";
 
 const CTAButton = ({ text = "Learn More", url = "https://google.com" }) => {
   const frame = useCurrentFrame();
@@ -311,7 +262,7 @@ export const Main: React.FC = () => {
   }, [fps]);
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "black" }}>
+    <AbsoluteFill style={{ backgroundColor: "white" }}>
       {isLoaded &&
         scenes.map((scene, idx) => {
           const from = scenes
@@ -332,57 +283,6 @@ export const Main: React.FC = () => {
             </Sequence>
           );
         })}
-  
-  {showTranscript && (
-  <div style={{
-    position: "absolute",
-    bottom: "80px",
-    right: "20px",
-    backgroundColor: "white",
-    padding: "16px",
-    borderRadius: "8px",
-    maxWidth: "300px",
-    zIndex: 9999
-  }}>
-    <Transcript scenes={scenes} />
-  </div>
-)}
-
-      {/* Toggle Transcript Button */}
-      <div
-  style={{
-    position: "absolute",
-    bottom: "-80px",  // Adjust this to place the button below the player
-    right: "20px",
-    zIndex: 9999,  // Ensure it's above other elements
-    transform: "translateY(0)",  // Ensure the button is visible
-  }}
->
-  <button
-    onClick={() => setShowTranscript(!showTranscript)}
-    style={{
-      padding: "12px 24px",
-      backgroundColor: "#4285f4",
-      color: "white",
-      fontWeight: "bold",
-      borderRadius: "8px",
-      cursor: "pointer",
-      border: "none",
-      fontSize: "18px",
-      boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
-      transition: "all 0.3s ease",
-      textDecoration: "none",
-      textAlign: "center",
-      width: "auto",
-      display: "inline-block",
-    }}
-  >
-    {showTranscript ? "Hide Transcript" : "Show Transcript"}
-  </button>
-</div>
-
-      {/* Transcript component */}
-      {showTranscript && <Transcript scenes={scenes} />}
     </AbsoluteFill>
   );
   

@@ -5,6 +5,7 @@ from RAG_retrieval_custom_stock_imgs import answer_with_rag
 app = Flask(__name__)
 CORS(app)
 
+
 @app.route('/img', methods=['POST'])
 def generate_images():
     print(request)
@@ -29,4 +30,4 @@ def generate_images():
     return jsonify(results)
 
 if __name__ == '__main__':
-    app.run(port=3005, debug=True)
+    app.run(port=3005, debug=False)

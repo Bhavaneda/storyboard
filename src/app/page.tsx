@@ -12,16 +12,15 @@ import {
   VIDEO_HEIGHT,
   VIDEO_WIDTH,
 } from "../../types/constants";
-import { RenderControls } from "../components/RenderControls";
-import { Spacing } from "../components/Spacing";
-import { Tips } from "../components/Tips";
 import { Main } from "../remotion/MyComp/Main";
+import { storyboardTemplate } from "../remotion/constants/storyboard";
 
 const Home: NextPage = () => {
   const [text, setText] = useState<string>(defaultMyCompProps.title);
-  const [isPlaying, setIsPlaying] = useState(false); // To manage play state
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [showTranscript, setShowTranscript] = useState(false);
 
-  const playerRef = useRef<any>(null); // Ref for the Player
+  const playerRef = useRef<any>(null);
 
   const inputProps: z.infer<typeof CompositionProps> = useMemo(() => {
     return {
@@ -33,19 +32,25 @@ const Home: NextPage = () => {
     if (!playerRef.current) return;
   
     if (isPlaying) {
-      playerRef.current.pause(); // Pause if already playing
+      playerRef.current.pause();
       setIsPlaying(false);
     } else {
-      playerRef.current.play(); // Play if paused
+      playerRef.current.play();
       setIsPlaying(true);
     }
   };
+
+  // Combine all scene texts into a single paragraph
+  const combinedTranscript = storyboardTemplate.map(scene => scene.text).join(' ');
   
+  const toggleTranscript = () => {
+    setShowTranscript(!showTranscript);
+  };
 
   return (
-    <div>
+    <div className="bg-black min-h-screen text-white pb-16">
       <div className="max-w-screen-md m-auto mb-5">
-        <div className="overflow-hidden rounded-geist shadow-[0_0_200px_rgba(0,0,0,0.15)] mb-10 mt-16">
+        <div className="overflow-hidden rounded-lg shadow-[0_0_200px_rgba(255,255,255,0.1)] mb-10 mt-16">
           <div
             onClick={handlePlayClick}
             style={{
@@ -65,21 +70,29 @@ const Home: NextPage = () => {
                 width: "100%",
               }}
               controls
-              autoPlay={false} // Disable autoplay
-              loop={false} // Disable looping
+              autoPlay={false}
+              loop={false}
             />
           </div>
         </div>
-        <RenderControls
-          text={text}
-          setText={setText}
-          inputProps={inputProps}
-        ></RenderControls>
-        <Spacing></Spacing>
-        <Spacing></Spacing>
-        <Spacing></Spacing>
-        <Spacing></Spacing>
-        <Tips></Tips>
+      </div>
+      
+      <div className="max-w-screen-md m-auto text-center mt-10">
+        <button 
+          onClick={toggleTranscript}
+          className="bg-gray-800 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-md mb-6 transition-colors duration-200"
+        >
+          {showTranscript ? "Hide Transcript" : "Show Transcript"}
+        </button>
+        
+        {showTranscript && (
+          <div className="mt-4 p-6 bg-gray-900 rounded-lg border border-gray-800 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-4 text-gray-200">Video Transcript</h2>
+            <p className="text-lg text-gray-300 leading-relaxed">
+              {combinedTranscript}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
