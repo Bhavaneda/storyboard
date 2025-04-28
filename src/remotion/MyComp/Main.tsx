@@ -158,35 +158,32 @@ const waitForAudio = async (url: string, retries = 10, delay = 500): Promise<boo
 };
 
 const loadAudioFiles = async () => {
-  try {
-    const audioFiles = await Promise.all(
-      storyboardTemplate.map(async (scene, index) => {
-        try {
-          const generateResponse = await fetch(
-            `http://localhost:3001/generate-audio?text=${encodeURIComponent(scene.text)}&index=${index}`
-          );
+  const audioFiles: string[] = [];
 
-          if (!generateResponse.ok) return null;
+  for (let index = 0; index < storyboardTemplate.length; index++) {
+    const scene = storyboardTemplate[index];
 
-          const audioUrl = `http://localhost:3001/audio/voiceover_${index}.mp3`;
+    try {
+      const generateResponse = await fetch(
+        `http://localhost:3005/generate-audio?text=${encodeURIComponent(scene.text)}&index=${index}`
+      );
 
-          const isReady = await waitForAudio(audioUrl);
-          if (!isReady) return null;
+      if (!generateResponse.ok) continue;
 
-          return audioUrl;
-        } catch (error) {
-          console.error(`Error processing audio for scene ${index}:`, error);
-          return null;
-        }
-      })
-    );
+      const audioUrl = `http://localhost:3005/audio/voiceover_${index}.mp3`;
 
-    return audioFiles.filter((audioUrl) => audioUrl !== null);
-  } catch (error) {
-    console.error("Error loading audio files:", error);
-    return [];
+      const isReady = await waitForAudio(audioUrl);
+      if (isReady) {
+        audioFiles.push(audioUrl);
+      }
+    } catch (error) {
+      console.error(`Error processing audio for scene ${index}:`, error);
+    }
   }
+
+  return audioFiles;
 };
+
 
 const loadDurations = async (audioUrls: string[], fps: number) => {
   const scenesWithDuration = await Promise.all(
