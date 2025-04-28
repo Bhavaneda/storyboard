@@ -38,8 +38,14 @@ export const storyboardTemplate = [
     color: "orange",
   },
   {
-    text: "Click below to proceed to the next steps.",
+    text: `Thank you ${customerName} for trusting us in this journey`,
     audio: generateAudioFileName(5),
+    fontSize: 50,
+    color: "orange",
+  },
+  {
+    text: "Click below to proceed to the next steps.",
+    audio: generateAudioFileName(6),
     fontSize: 50,
     color: "purple",
   },
